@@ -1,8 +1,5 @@
 
 
-import Sidenav from "@/scenes/global/Sidenav";
-import Topbar from "@/scenes/global/Topbar";
-
 export default function Home() {
   return (
     <div className="app">

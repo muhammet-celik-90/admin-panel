@@ -34,3 +34,31 @@ body,
 a {
   text-decoration: none;
 }
+
+.uploadImageLabel {
+  cursor: pointer;
+}
+.uploadImageLabel:hover {
+  opacity: 0.8;
+}
+
+.centeredBox {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.uploadedImage {
+  width: inherit;
+  object-fit: cover;
+}
+
+.loading-page {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: #eee8e8;
+  height: 100vh;
+}

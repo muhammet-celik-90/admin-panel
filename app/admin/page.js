@@ -21,7 +21,7 @@ import PersonOutlineOutlinedIcon from "@mui/icons-material/PersonOutlineOutlined
 import PointOfSaleOutlinedIcon from "@mui/icons-material/PointOfSaleOutlined";
 import { mockTransactions } from "@/data/mockData";
 import ProgressCircle from "@/components/ProgressCircle";
-import PieChart from "@/components/PieChart";
+
 
 export default function Dashboard() {
   const theme = useTheme();

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { Sidebar, Menu, MenuItem } from "react-pro-sidebar";
+import { Sidebar, Menu, MenuItem, SubMenu } from "react-pro-sidebar";
 import Link from "next/link";
 import { tokens } from "@/app/theme";
 import HomeOutlinedIcon from "@mui/icons-material/HomeOutlined";
@@ -16,6 +16,8 @@ import PieChartOutlinedIcon from "@mui/icons-material/PieChartOutlineOutlined";
 import TimelineOutlinedIcon from "@mui/icons-material/TimelineOutlined";
 import MenuOutlinedIcon from "@mui/icons-material/MenuOutlined";
 import MapOutlinedIcon from "@mui/icons-material/MapOutlined";
+import ContentPasteOutlinedIcon from "@mui/icons-material/ContentPasteOutlined";
+import ArrowRightOutlinedIcon from "@mui/icons-material/ArrowRightOutlined";
 import {
   Box,
   Button,
@@ -24,24 +26,60 @@ import {
   IconButton,
   Tooltip,
 } from "@mui/material";
-import { useRouter } from "next/navigation";
 
 const Item = ({ title, to, icon, selected, setSelected }) => {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const route = useRouter();
+
   return (
     <Tooltip title={title} placement="right" arrow>
-      <MenuItem
-        active={selected === title}
-        style={{
-          color: colors.grey[100],
-        }}
-        onClick={() => (setSelected(title), route.push(to))}
-        icon={icon}
-      >
-        <Typography>{title}</Typography>
-      </MenuItem>
+      <div>
+        <MenuItem
+          active={selected === title}
+          style={{
+            color: colors.grey[100],
+          }}
+          onClick={() => setSelected(title)}
+          icon={icon}
+          component={<Link href={to} />}
+        >
+          <Typography>{title}</Typography>
+        </MenuItem>
+      </div>
+    </Tooltip>
+  );
+};
+
+const SubItem = ({ title, to, selected, setSelected }) => {
+  const theme = useTheme();
+  const colors = tokens(theme.palette.mode);
+  const [isHover, setIsHover] = useState(false);
+
+  function MouseOver() {
+    setIsHover(true);
+  }
+  function MouseOut() {
+    setIsHover(false);
+  }
+
+  return (
+    <Tooltip title={title} placement="right" arrow>
+      <div>
+        <MenuItem
+          active={selected === title}
+          style={{
+            color: colors.grey[100],
+            backgroundColor: isHover ? "#868dfb" : colors.primary[400],
+          }}
+          onClick={() => setSelected(title)}
+          onMouseOver={MouseOver}
+          onMouseOut={MouseOut}
+          component={<Link href={to} />}
+          icon={<ArrowRightOutlinedIcon fontSize="10px" />}
+        >
+          <Typography>{title}</Typography>
+        </MenuItem>
+      </div>
     </Tooltip>
   );
 };
@@ -49,7 +87,7 @@ const Item = ({ title, to, icon, selected, setSelected }) => {
 export default function Sidenav() {
   const theme = useTheme();
   const colors = tokens(theme.palette.mode);
-  const [isCollapsed, setIsCollapsed] = useState(true);
+  const [isCollapsed, setIsCollapsed] = useState(false);
   const [selected, setSelected] = useState("");
 
   return (
@@ -83,7 +121,7 @@ export default function Sidenav() {
             },
           }}
         >
-          <MenuItem
+          <MenuItem //PROFİL FOTOĞRAFI BÖLÜMÜ
             onClick={() => setIsCollapsed(!isCollapsed)}
             icon={isCollapsed ? <MenuOutlinedIcon /> : undefined}
             style={{
@@ -135,6 +173,7 @@ export default function Sidenav() {
             </Box>
           )}
 
+          {/* MENUS */}
           <Item
             title="Dashboard"
             to="/admin"
@@ -151,6 +190,34 @@ export default function Sidenav() {
           >
             Data
           </Typography>
+
+          {/* BLOG */}
+          <Tooltip title="Blog" placement="right" arrow>
+            <Box component="div">
+              <SubMenu
+                label="Blog"
+                icon={<ContentPasteOutlinedIcon />}
+                rootStyles={{
+                  border: "none",
+                  background: `${colors.primary[400]} !important`,
+                }}
+              >
+                <SubItem
+                  title="Oluştur"
+                  to="/admin/blog/create"
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+                <SubItem
+                  title="Listele"
+                  to="/admin/blog/list"
+                  selected={selected}
+                  setSelected={setSelected}
+                />
+              </SubMenu>
+            </Box>
+          </Tooltip>
+
           <Item
             title="Manage Team"
             to="/admin/team"
